@@ -12,7 +12,7 @@
       <div class="box">         <!-- first box-->
         <div class="inner-box">
           <div class="forms-wrap">
-            <form action="api/employee/login" autocomplete="off" method="post" class="sign-in-form" onsubmit="myFunction()" >
+            <form action="/api/employee/login" autocomplete="off" method="post" class="sign-in-form" onsubmit="myFunction()" >
               <div class="logo">
                 <img src="./img/logo.png" alt="easyclass">
                 <h4>Transfire</h4>
@@ -21,7 +21,7 @@
               <div class="heading">
                 <h2>Welcome Back</h2>
                 <h6>Not registred yet?</h6>
-                <a href="register" class="toggle">Sign up</a>
+                <a href="/register" class="toggle">Sign up</a>
               </div>
 
               <div class="actual-form">
@@ -32,6 +32,7 @@
                     class="input-field"
                     autocomplete="off"
                     id="name"
+                    name="name"
                     required
                   />
                   <label for="name">Name</label>
@@ -44,6 +45,7 @@
                     class="input-field"
                     autocomplete="off"
                     id="password"
+                    name="password"
                     required
                   />
                   <label for="password">Password</label>
@@ -60,7 +62,7 @@
 
 
 
-            <form action="login" method="post" autocomplete="off" class="sign-up-form">
+            <form action="/api/employee/store" method="post" autocomplete="off" class="sign-up-form">
               <div class="logo">
                 <img src="./img/logo.png" alt="easyclass" />
                 <h4>Transfire</h4>
@@ -69,7 +71,7 @@
               <div class="heading">
                 <h2>Get Started</h2>
                 <h6>Already have an account?</h6>
-                <a href="login" class="toggle">Sign in</a>
+                <a href="/login" class="toggle">Sign in</a>
               </div>
 
               <div class="actual-form">
@@ -78,6 +80,7 @@
                     type="text"
                     minlength="4"
                     class="input-field"
+                    name="name"
                     autocomplete="off"
                     required
                   />
@@ -89,6 +92,7 @@
                   <input
                     type="email"
                     class="input-field"
+                    name="email"
                     autocomplete="off"
                     required
                   />
@@ -100,6 +104,7 @@
                     type="password"
                     minlength="4"
                     class="input-field"
+                    name="password"
                     autocomplete="off"
                     required
                   />

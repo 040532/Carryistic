@@ -35,11 +35,11 @@ app.get("/register", (req, res, next) => {
     res.render("registration");
 });
 app.get("/login", authenticate, (req, res, next) => {
-    // const { user } = req.body;
-    // res.render("dashboard", { user });
-    res.render("login");
+    const { user } = req.body;
+    res.render("login", { user });
+    //res.render("login");
 });
-app.get("/logout", authenticate, logout);
+//app.get("/logout", authenticate, logout);
 
 app.use("/api/employee", EmployeeRoute);
 

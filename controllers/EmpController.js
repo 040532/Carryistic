@@ -24,15 +24,15 @@ const login = async (req, res, next) => {
     }
 };
 
-const logout = (req, res, next) => {
-    if (req.signedCookies.id) {
-        res.clearCookie("id", { httpOnly: true, signed: true });
-        res.redirect("/login");
-        res.json({ msg: "Logged out successfully" });
-    } else {
-        res.json({ err: "Login first !" });
-    }
-};
+// const logout = (req, res, next) => {
+//     if (req.signedCookies.id) {
+//         res.clearCookie("id", { httpOnly: true, signed: true });
+//         res.redirect("/login");
+//         res.json({ msg: "Logged out successfully" });
+//     } else {
+//         res.json({ err: "Login first !" });
+//     }
+// };
 
 const index = (req, res, next) => {
     Employee.find({})
@@ -63,7 +63,7 @@ const store = async (req, res, next) => {
     //     }
     // }
 
-    // const password = await bcrypt.hash(req.body.password, 10);
+     const password = await bcrypt.hash(req.body.password, 10);
     // let refCode = rfg.alphaNumeric("uppercase", 3, 1),
     //     exists = true;
 
@@ -120,5 +120,5 @@ module.exports = {
     store,
     authenticate,
     login,
-    logout
+    //logout
 };
