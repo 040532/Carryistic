@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            height: 90vh;
+            width: 90vw;
+            font-family: Ubuntu;
+            box-sizing: border-box;
+
+            background-color: #4082E4;
+            background-repeat: no-repeat;
+            background-size: cover;
+            align-items: center;
+            align-content: center;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            padding: 100px;
+            margin-left: 50px;
+        }
+
+        a {
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: bold;
+
+        }
+
+        h1 {
+            margin: 6px 0px;
+            margin-left: 50px;
+        }
+    </style>
+
+    <!-- MapBox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- Search Box MapBox -->
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+        type="text/css">
+    </link>
+
+    <title>Parking Space Locator</title>
+</head>
+
+<body>
+
+    <a href="/landing" style="height: 100%; color: black;">
+        <h1><i class="fas fa-map-marked" style="margin: 6px;"></i>Parking Space Locator</h1>
+    </a>
+
+    <div id='map'></div>
+
+
+    <script>
+        const SVNIT = [72.7833, 21.1663];
+        const LPSavani = [72.78685735866463, 21.19382270200964];
+        let center = LPSavani;
+
+        const userLocation = [];
+        navigator.geolocation.getCurrentPosition((position) => {
+            userLocation.push(position.coords.longitude);
+            userLocation.push(position.coords.latitude);
+        });
+
+        const location = {
+            startinglatitude: userLocation[0],
+            endinglongitude: userLocation[1]
+        };
+
+        const newLocation = new Location(location);
+
+        newLocation.save((err) => {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log('Location saved successfully!');
+            }
+        });
+
+        console.log("USER LOCATION - ", userLocation);
+
+        //SettingUp Map Box
+
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic3dheWFtLTExIiwiYSI6ImNsZTc0NjlqYTAxeGczdm56dWIyMWdoYnoifQ.2IT1CxUH664iTPiG5zhTpg';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom: 15,
+            center: center || [72.7933, 21.1959]  //Logitude & Lattitude
+        });
+
+        //Add controller
+        const nav = new mapboxgl.NavigationControl();
+        map.addControl(nav, 'bottom-right');
+
+        //Add Search Bar
+        // Add the control to the map.
+        map.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+            })
+        );
+
+        //Add Marker
+        // const marker = new mapboxgl.Marker({
+        //     color: "#3e3e3e",
+        //     draggable: true
+        //     })
+        //     .setLngLat(SVNIT)
+        //     .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML("SVNIT"))
+        //     .addTo(map);
+
+        //Enabling GEOLOCATE
+        const geoLocate = new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+            showUserHeading: true
+        })
+
+        map.addControl(geoLocate);
+
+        //Connect With DataBase
+        async function getStores() {
+            let stores = await fetch("/stores", { method: "get" });
+            stores = await stores.json();
+            console.log(stores);
+
+            for (let i = 0; i < stores.length; i++) {
+                
+                if (stores[i].storeId == 0) {
+                    new mapboxgl.Marker({
+                        color: "#7CFC00",
+                        // draggable: true
+                    })
+                        .setLngLat(stores[i].location.coordinates)
+                        .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<a href = "/stores/${stores[i]._id}">BOOK</a>`))
+                        .addTo(map);
+
+                }
+
+                else {
+                    new mapboxgl.Marker({
+                        color: "#FF5733",
+                        // draggable: true
+                    })
+                        .setLngLat(stores[i].location.coordinates)
+                        .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<a href = "/stores/${stores[i]._id}">BOOK</a>`))
+                        .addTo(map);
+                }
+
+            }
+        }
+
+        getStores();
+
+        const reset = document.getElementById("reset");
+        reset.addEventListener("click", () => {
+            fetch("/map/reset", {
+                method: "GET"
+            });
+            window.location.href = "/map";
+        })
+    </script>
+
+</body>
+
+</html>

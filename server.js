@@ -39,6 +39,12 @@ app.get("/login", authenticate, (req, res, next) => {
     res.render("login", { user });
     //res.render("login");
 });
+app.get("/rider", (req, res, next) => {
+    res.render("rider");
+});
+app.get("/vendor", (req, res, next) => {
+    res.render("vendor");
+});
 //app.get("/logout", authenticate, logout);
 
 app.use("/api/employee", EmployeeRoute);

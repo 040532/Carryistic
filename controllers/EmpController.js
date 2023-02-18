@@ -17,7 +17,12 @@ const login = async (req, res, next) => {
         const verified = await bcrypt.compare(req.body.password, emp.password);
         if (verified) {
             res.cookie("id", emp._id.toString(), { httpOnly: true, signed: true });
-            res.redirect("/dashboard");
+            // const category = req.body.category;
+            if (emp.category === 'rider') {
+                res.redirect('/rider');
+            } else if (emp.category === 'vendor') {
+                res.redirect('/vendor');
+            }
         } else res.json({ err: "Incorrect username or password" });
     } else {
         res.json("Email does not exists");
@@ -51,7 +56,7 @@ const show = (req, res, next) => {
     res.json(req.body.user);
 };
 const store = async (req, res, next) => {
-    const { name, email} = req.body;
+    const { name, email, category } = req.body;
     // if referral code is entered by user
     // if (refto) {
     //     const reftoemp = await Employee.findOne({ refCode: refto });
@@ -63,7 +68,7 @@ const store = async (req, res, next) => {
     //     }
     // }
 
-     const password = await bcrypt.hash(req.body.password, 10);
+    const password = await bcrypt.hash(req.body.password, 10);
     // let refCode = rfg.alphaNumeric("uppercase", 3, 1),
     //     exists = true;
 
@@ -83,10 +88,14 @@ const store = async (req, res, next) => {
     const tempEmp = await Employee.findOne({ email });
     console.log(tempEmp);
     if (!tempEmp) {
-        let employee = await Employee.create({ name, email, password});
+        let employee = await Employee.create({ name, email, category, password });
         console.log(employee);
         res.cookie("id", employee._id.toString(), { httpOnly: true, signed: true });
-        return res.redirect("/dashboard");
+        if (employee.category === 'rider') {
+            res.redirect('/rider');
+        } else if (employee.category === 'vendor') {
+            res.redirect('/vendor');
+        }
     } else {
         return res.redirect("/register");
     }

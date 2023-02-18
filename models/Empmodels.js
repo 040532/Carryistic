@@ -10,7 +10,11 @@ const empSchema = new Schema(
             type: String,
             unique: true,
         },
-        
+        category: {
+            type: String,
+            enum: ['rider', 'vendor'],
+            required : true 
+        },
         password: {
             type: String,
         },

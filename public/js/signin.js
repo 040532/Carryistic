@@ -3,9 +3,6 @@ const inputs = document.querySelectorAll(".input-field");
 const main = document.querySelector("main");
 const bullets = document.querySelectorAll(".bullets span");
 const images = document.querySelectorAll(".image");
-function myFunction() {
-  prompt("ARE YOU SESRVICE PROVIDER IF YES ENTER YOUR UNIQUE ID ELSE NO");
-}
 
 inputs.forEach((inp) => {
   inp.addEventListener("focus", () => {
