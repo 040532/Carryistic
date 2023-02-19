@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const EmployeeRoute = require("./routes/Emproutes");
 const { authenticate, logout } = require("./controllers/EmpController");
 const path = require("path");
+// const rider = require('./views/dummy.json');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,6 +45,12 @@ app.get("/rider", (req, res, next) => {
 });
 app.get("/vendor", (req, res, next) => {
     res.render("vendor");
+});
+app.get("/add.ejs", (req, res, next) => {
+    res.render("add");
+});
+app.get("/new.ejs", (req, res, next) => {
+    res.render("new");
 });
 //app.get("/logout", authenticate, logout);
 

@@ -7,6 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign in & Sign up Form</title>
   <link rel="stylesheet" href="css/signupstyle.css" />
+
+  <style>
+    .options {
+      position: absolute;
+      /* top: 5px; */
+      left: 170px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,8 +26,8 @@
           <form action="/api/employee/login" autocomplete="off" method="post" class="sign-in-form"
             onsubmit="myFunction()">
             <div class="logo">
-              <img src="./img/logo.png" alt="easyclass">
-              <h4>Transfire</h4>
+              <img src="/img/carryistic-logo.png" alt="easyclass">
+              <h4>Carryistic</h4>
             </div>
 
             <div class="heading">
@@ -53,7 +62,7 @@
 
           <form action="/api/employee/store" method="post" autocomplete="off" class="sign-up-form">
             <div class="logo">
-              <img src="./img/logo.png" alt="easyclass" />
+              <img src="/img/carryistic-logo.png" alt="easyclass" />
               <h4>Transfire</h4>
             </div>
 
@@ -74,14 +83,19 @@
                 <input type="email" class="input-field" name="email" autocomplete="off" required />
                 <label>Email</label>
               </div>
-              <div class="input-wrap">
-              <label for="category">Choose a category:</label>
 
-              <select name="category" id="category">
-                <option value="rider">Rider</option>
-                <option value="vendor">Vendor</option>
-              </select>
-            </div>
+              <div class="input-wrap">
+                <div>
+                  <label for="category">Choose a category:</label>
+                </div>
+
+                <div class="options">
+                  <select name="category" id="category">
+                    <option value="rider">Rider</option>
+                    <option value="vendor">Vendor</option>
+                  </select>
+                </div>
+              </div>
 
               <div class="input-wrap">
                 <input type="password" minlength="4" class="input-field" name="password" autocomplete="off" required />
@@ -109,7 +123,7 @@
           <div class="text-slider">
             <div class="text-wrap">
               <div class="text-group">
-                <h2>Create your own courses</h2>
+                <h2>Create your own account</h2>
                 <h2>Customize as you like</h2>
                 <h2>Invite More And Get Points</h2>
               </div>
